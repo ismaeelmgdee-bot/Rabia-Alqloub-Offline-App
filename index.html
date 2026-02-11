@@ -3,168 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ربيع القلوب 2026 - أوفلاين</title>
+    <title>ربيع القلوب 2026 - الذاكرة الذكية</title>
     <link rel="manifest" href="manifest.json">
     <style>
         body {
             background-color: #050a10;
-            /* نمط إسلامي مع تأثير هدوء الليل */
             background-image: url("https://www.transparenttextures.com/patterns/islamic-art.png");
             color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; overflow-x: hidden;
         }
-
-        /* اللمسة الروحانية: نجوم متلألئة في الخلفية */
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 80%);
-            z-index: -1;
-        }
-
         .main-card {
-            background: rgba(13, 17, 23, 0.85); border-radius: 30px;
+            background: rgba(13, 17, 23, 0.9); border-radius: 30px;
             padding: 25px; width: 100%; max-width: 400px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 1px solid rgba(212, 175, 55, 0.3);
             text-align: center; backdrop-filter: blur(15px);
-            position: relative;
         }
-
-        /* أيقونة المصحف مع نبض نوراني */
-        .quran-img {
-            width: 90px; filter: drop-shadow(0 0 15px #d4af37);
-            animation: glow 3s infinite alternate;
-        }
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 10px #d4af37); }
-            to { filter: drop-shadow(0 0 25px #f1d592); }
-        }
-
-        h1 { color: #d4af37; font-size: 28px; margin: 10px 0 5px 0; text-shadow: 1px 1px 2px #000; }
+        h1 { color: #d4af37; font-size: 28px; margin: 10px 0 5px 0; }
+        .sub-title { color: #f1d592; font-size: 14px; margin-bottom: 20px; display: block; }
         
-        /* العنوان الفرعي الجديد (الجواهر الذهبية) */
-        .sub-title {
-            color: #f1d592; font-size: 15px; font-style: italic;
-            margin-bottom: 20px; display: block; opacity: 0.9;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            padding-bottom: 10px;
+        /* قائمة التلاوات المحفوظة */
+        .playlist {
+            margin-top: 20px; text-align: right; background: rgba(255,255,255,0.05);
+            border-radius: 15px; padding: 10px; max-height: 200px; overflow-y: auto;
         }
-
-        #installBtn {
-            display: none; background: linear-gradient(145deg, #d4af37, #aa8a2e);
-            color: #000; border: none; padding: 12px 20px; border-radius: 12px;
-            font-weight: bold; cursor: pointer; margin-bottom: 15px; width: 100%;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        .playlist-title { color: #d4af37; font-size: 14px; border-bottom: 1px solid #d4af37; padding-bottom: 5px; margin-bottom: 10px; }
+        .track-item { 
+            padding: 10px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); 
+            cursor: pointer; font-size: 13px; transition: 0.3s;
         }
-
-        .guide-box {
-            background: rgba(212, 175, 55, 0.08); border-right: 4px solid #d4af37;
-            padding: 15px; margin: 15px 0; text-align: right; border-radius: 8px;
-        }
-        .guide-box h4 { margin: 0 0 5px 0; color: #d4af37; }
-        .guide-box p { margin: 0; font-size: 13px; line-height: 1.6; }
+        .track-item:hover { background: rgba(212, 175, 55, 0.1); color: #d4af37; }
 
         .download-link {
             display: block; background: #1b5e20; color: white;
-            padding: 14px; border-radius: 10px; text-decoration: none;
-            font-weight: bold; margin-bottom: 20px; font-size: 14px;
-            transition: 0.3s; border: 1px solid #2e7d32;
+            padding: 12px; border-radius: 10px; text-decoration: none;
+            font-weight: bold; margin-bottom: 15px; font-size: 14px;
         }
-        .download-link:hover { background: #2e7d32; transform: translateY(-2px); }
-
         .upload-btn {
-            background: #d4af37; color: #000; padding: 14px 28px;
-            border-radius: 50px; cursor: pointer; font-weight: bold;
-            display: inline-block; transition: 0.3s;
+            background: #d4af37; color: #000; padding: 12px 25px;
+            border-radius: 50px; cursor: pointer; font-weight: bold; display: inline-block;
         }
-        .upload-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
-
         input[type="file"] { display: none; }
-        audio { width: 100%; margin-top: 25px; border-radius: 10px; filter: sepia(0.5) hue-rotate(10deg); }
-
-        .footer {
-            margin-top: 40px; border-top: 1px solid rgba(212, 175, 55, 0.2);
-            padding-top: 20px; font-size: 13px; color: #bbb; text-align: center; width: 100%; max-width: 400px;
-        }
-        .dev-link { color: #d4af37; text-decoration: none; font-weight: bold; margin-top: 5px; display: inline-block; }
-        .sadaqa { color: #81c784; font-size: 12px; margin-top: 10px; display: block; font-weight: 500; }
+        audio { width: 100%; margin-top: 20px; filter: sepia(0.5) hue-rotate(10deg); }
+        .footer { margin-top: 30px; font-size: 12px; color: #bbb; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="main-card">
-        <img src="assets/quran.png" class="quran-img">
+        <img src="assets/quran.png" style="width: 80px; filter: drop-shadow(0 0 10px #d4af37);">
         <h1>🌙 ربيع القلوب 2026</h1>
         <span class="sub-title">الجواهر الذهبية لتلاوات الشيخ عبد الباسط رحمه الله</span>
 
-        <button id="installBtn">📲 ثبّت التطبيق الرمضاني على شاشتك</button>
-
-        <div class="guide-box">
-            <h4>✨ خطوة هامة للأوفلاين:</h4>
-            <p>1. حمل "حقيبة التلاوات" عبر الزر الأخضر.</p>
-            <p>2. اختر أي سورة من هاتفك عبر الزر الذهبي.</p>
-        </div>
-
         <a href="https://archive.org/compress/audio30__20260210/formats=VBR%20MP3&file=/audio30__20260210.zip" class="download-link">
-            📥 اضغط هنا لتحميل الحقيبة الذهبية (ZIP)
+            📥 تحميل الحقيبة الذهبية (مرة واحدة)
         </a>
 
-        <div style="margin: 25px 0;">
-            <label for="audioFile" class="upload-btn">📂 اختر تلاوة من ذاكرة هاتفك</label>
-            <input type="file" id="audioFile" accept="audio/*">
-            <div id="trackName" style="color: #f1d592; font-size: 13px; margin-top: 15px; font-weight: 500;"></div>
+        <label for="audioFile" class="upload-btn">📂 أضف تلاوة للمكتبة</label>
+        <input type="file" id="audioFile" accept="audio/*">
+
+        <div class="playlist" id="playlistArea" style="display:none;">
+            <div class="playlist-title">📜 مكتبتك السريعة (بدون إنترنت):</div>
+            <div id="trackList"></div>
         </div>
 
         <audio id="mainPlayer" controls></audio>
-        <p style="font-size: 11px; color: #ffca28; margin-top: 15px; opacity: 0.8;">🕌 رمضان مبارك | يعمل بالكامل بدون إنترنت</p>
+        <p id="nowPlaying" style="color: #f1d592; font-size: 12px; margin-top: 10px;"></p>
     </div>
 
     <div class="footer">
         برمجة وتطوير م/ <b>مجدي إسماعيل</b> © 2026 <br>
-        <a href="https://www.facebook.com/share/1FuFVriwWP/" target="_blank" class="dev-link">🔗 تواصل مع المطور (فيسبوك)</a>
-        <span class="sadaqa">🌿 صدقة جارية لكل من قام بنشره 🌿</span>
+        <span style="color:#81c784">🌿 صدقة جارية - تعمل بالكامل أوفلاين 🌿</span>
     </div>
 
     <script>
-        let deferredPrompt;
-        const installBtn = document.getElementById('installBtn');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block';
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') installBtn.style.display = 'none';
-                deferredPrompt = null;
-            }
-        });
-
         const audioFile = document.getElementById('audioFile');
         const player = document.getElementById('mainPlayer');
-        const trackName = document.getElementById('trackName');
+        const trackList = document.getElementById('trackList');
+        const playlistArea = document.getElementById('playlistArea');
+        const nowPlaying = document.getElementById('nowPlaying');
+
+        // مصفوفة لحفظ الملفات مؤقتاً في الجلسة
+        let myLibrary = [];
 
         audioFile.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                player.src = URL.createObjectURL(file);
-                trackName.textContent = "🔊 تشغيل الآن: " + file.name;
-                player.play();
+                const fileURL = URL.createObjectURL(file);
+                addToLibrary(file.name, fileURL);
+                playTrack(file.name, fileURL);
             }
         });
 
+        function addToLibrary(name, url) {
+            myLibrary.push({ name, url });
+            renderLibrary();
+        }
+
+        function renderLibrary() {
+            playlistArea.style.display = 'block';
+            trackList.innerHTML = '';
+            myLibrary.forEach((track, index) => {
+                const item = document.createElement('div');
+                item.className = 'track-item';
+                item.textContent = `💎 ${track.name}`;
+                item.onclick = () => playTrack(track.name, track.url);
+                trackList.appendChild(item);
+            });
+        }
+
+        function playTrack(name, url) {
+            player.src = url;
+            nowPlaying.textContent = "🔊 تشغيل: " + name;
+            player.play();
+        }
+
+        // Service Worker V6
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const sw = `
-                self.addEventListener('install', e => e.waitUntil(caches.open('v5').then(c => c.addAll(['./', './index.html', './manifest.json', './assets/quran.png']))));
-                self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
-                `;
-                const b = new Blob([sw], {type: 'text/javascript'});
-                navigator.serviceWorker.register(URL.createObjectURL(b));
+                navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
+                    self.addEventListener('install', e => e.waitUntil(caches.open('v6').then(c => c.addAll(['./', 'index.html', 'manifest.json', 'assets/quran.png']))));
+                    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+                `], {type: 'text/javascript'})));
             });
         }
     </script>
