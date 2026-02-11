@@ -3,70 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ربيع القلوب 2026</title>
+    <title>ربيع القلوب 2026 - أوفلاين</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#d4af37">
-
     <style>
         body {
             background-color: #0d1117;
             background-image: url("https://www.transparenttextures.com/patterns/islamic-art.png");
-            color: #ffffff; font-family: 'Amiri', serif; margin: 0; padding: 20px;
-            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
         }
         .main-card {
             background: rgba(255, 255, 255, 0.05); border-radius: 20px;
-            padding: 25px; width: 100%; max-width: 400px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            border: 1px solid rgba(212, 175, 55, 0.3); text-align: center;
-            backdrop-filter: blur(10px);
+            padding: 20px; width: 100%; max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7); border: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: center; backdrop-filter: blur(10px);
         }
-        .quran-img { width: 110px; margin-bottom: 10px; filter: drop-shadow(0 0 10px #d4af37); }
-        h1 { color: #d4af37; font-size: 26px; margin: 10px 0; text-shadow: 2px 2px 4px #000; }
-
-        .file-section {
-            margin: 25px 0; padding: 20px; border: 2px dashed rgba(212, 175, 55, 0.5);
-            border-radius: 15px; background: rgba(212, 175, 55, 0.03);
+        #installBtn {
+            display: none; background: linear-gradient(145deg, #d4af37, #aa8a2e);
+            color: #000; border: none; padding: 12px 20px; border-radius: 10px;
+            font-weight: bold; cursor: pointer; margin-bottom: 15px; width: 100%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); box-shadow: 0 0 15px #d4af37; }
+            100% { transform: scale(1); }
+        }
+        .guide-box {
+            background: rgba(212, 175, 55, 0.1); border-right: 4px solid #d4af37;
+            padding: 15px; margin: 15px 0; text-align: right; border-radius: 5px;
+        }
+        .alert-important {
+            font-size: 12px; color: #ffca28; margin-top: 10px; font-style: italic;
+        }
+        .download-link {
+            display: block; background: #2e7d32; color: white;
+            padding: 10px; border-radius: 8px; text-decoration: none;
+            font-weight: bold; margin-bottom: 20px; font-size: 14px;
+        }
+        .upload-btn {
+            background: #d4af37; color: #000; padding: 12px 25px;
+            border-radius: 50px; cursor: pointer; font-weight: bold;
+            display: inline-block;
         }
         input[type="file"] { display: none; }
-        .upload-btn {
-            background: linear-gradient(145deg, #d4af37, #aa8a2e);
-            color: #000; padding: 12px 25px; border-radius: 50px;
-            cursor: pointer; font-weight: bold; display: inline-block;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            transition: 0.3s;
+        audio { width: 100%; margin-top: 20px; }
+
+        /* تنسيق قسم الحقوق الجديد */
+        .footer {
+            margin-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding-top: 15px; font-size: 13px; color: #bbb; text-align: center; width: 100%; max-width: 400px;
         }
-        .upload-btn:active { transform: scale(0.95); }
-
-        audio { width: 100%; margin-top: 20px; filter: sepia(100%) saturate(200%) hue-rotate(10deg); }
-
-        .track-info { color: #f1d592; font-size: 14px; margin-top: 15px; min-height: 20px; }
-        .footer { margin-top: auto; padding: 20px; font-size: 13px; color: #aaa; text-align: center; }
-        .footer a { color: #d4af37; text-decoration: none; font-weight: bold; }
+        .dev-link {
+            color: #d4af37; text-decoration: none; font-weight: bold;
+            display: inline-block; margin-top: 5px; transition: 0.3s;
+        }
+        .dev-link:hover { color: #fff; text-shadow: 0 0 5px #d4af37; }
+        .sadaqa { color: #81c784; font-size: 11px; margin-top: 8px; display: block; }
     </style>
 </head>
 <body>
 
     <div class="main-card">
-        <img src="assets/quran.png" class="quran-img" alt="Logo">
+        <img src="assets/quran.png" style="width: 80px; filter: drop-shadow(0 0 5px #d4af37);">
         <h1>🌙 ربيع القلوب 2026</h1>
-        <p style="color: #888; font-size: 14px;">نسخة الاستماع أوفلاين</p>
 
-        <div class="file-section">
+        <button id="installBtn">📲 ثبّت التطبيق على شاشة هاتفك</button>
+
+        <div class="guide-box">
+            <h4>💡 تنبيه هام:</h4>
+            <p>التأمين "البرمجي" جاهز، ولكن "التأمين الفعلي" ليعمل التطبيق بدون إنترنت يعتمد على قيامك بالضغط على <b>"إضافة إلى الشاشة الرئيسية"</b>.</p>
+        </div>
+
+        <a href="https://archive.org/details/audio30__20260210" target="_blank" class="download-link">
+            📥 اضغط هنا لتحميل التلاوات أولاً
+        </a>
+
+        <div style="margin: 20px 0;">
             <label for="audioFile" class="upload-btn">📂 اختر تلاوة من هاتفك</label>
             <input type="file" id="audioFile" accept="audio/*">
-            <div id="trackName" class="track-info">جاهز لخدمتك بدون إنترنت</div>
+            <div id="trackName" style="color: #f1d592; font-size: 13px; margin-top: 15px;"></div>
         </div>
 
         <audio id="mainPlayer" controls></audio>
+
+        <p class="alert-important">بمجرد التثبيت، سيعمل هذا الزر الذهبي حتى لو انقطع الإنترنت تماماً.</p>
     </div>
 
     <div class="footer">
-        برمجة م/ <a href="https://www.facebook.com/share/1FuFVriwWP/" target="_blank">مجدي إسماعيل</a> © 2026 <br>
-        <p>صدقة جارية | يعمل بالكامل أوفلاين</p>
+        برمجة وتطوير م/ <b>مجدي إسماعيل</b> © 2026 <br>
+        <a href="https://www.facebook.com/share/1FuFVriwWP/" target="_blank" class="dev-link">🔗 تواصل مع المطور (فيسبوك)</a>
+        <span class="sadaqa">🌿 صدقة جارية لكل من قام بنشره 🌿</span>
     </div>
 
     <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') installBtn.style.display = 'none';
+                deferredPrompt = null;
+            }
+        });
+
         const audioFile = document.getElementById('audioFile');
         const player = document.getElementById('mainPlayer');
         const trackName = document.getElementById('trackName');
@@ -74,29 +122,20 @@
         audioFile.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                const url = URL.createObjectURL(file);
-                player.src = url;
-                trackName.textContent = "🔊 " + file.name;
+                player.src = URL.createObjectURL(file);
+                trackName.textContent = "🔊 تشغيل: " + file.name;
                 player.play();
             }
         });
 
-        // Service Worker: سر العمل أوفلاين
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const swContent = `
-                    const CACHE_NAME = 'rabia-hearts-v2';
-                    const urlsToCache = ['./', './index.html', './manifest.json', './assets/quran.png'];
-                    self.addEventListener('install', event => {
-                        event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
-                    });
-                    self.addEventListener('fetch', event => {
-                        event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
-                    });
+                const sw = `
+                self.addEventListener('install', e => e.waitUntil(caches.open('v3').then(c => c.addAll(['./', './index.html', './manifest.json', './assets/quran.png']))));
+                self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
                 `;
-                const blob = new Blob([swContent], {type: 'text/javascript'});
-                const swUrl = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swUrl);
+                const b = new Blob([sw], {type: 'text/javascript'});
+                navigator.serviceWorker.register(URL.createObjectURL(b));
             });
         }
     </script>
