@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ربيع القلوب 2026 - الإصدار الاحترافي V8</title>
+    <title>ربيع القلوب 2026 - الإصدار الذهبي V9</title>
     <link rel="manifest" href="manifest.json">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
         body {
             background-color: #050a10;
@@ -51,6 +52,9 @@
             background: #d4af37; color: #000; padding: 12px 25px;
             border-radius: 50px; cursor: pointer; font-weight: bold; display: inline-block;
         }
+        /* مؤشر التحميل */
+        #loader { display: none; color: #d4af37; font-size: 12px; margin-top: 10px; }
+
         input[type="file"] { display: none; }
         audio { width: 100%; margin-top: 20px; filter: sepia(0.5) hue-rotate(10deg); }
         .footer { margin-top: 30px; font-size: 12px; color: #bbb; text-align: center; line-height: 1.8; }
@@ -70,8 +74,10 @@
             📥 تحميل حقيبة التلاوات (ZIP)
         </a>
 
-        <label for="audioFile" class="upload-btn">📂 أضف تلاوات للمكتبة</label>
-        <input type="file" id="audioFile" accept="audio/*" multiple>
+        <label for="audioFile" class="upload-btn">📂 أضف الحقيبة أو تلاوات</label>
+        <input type="file" id="audioFile" accept="audio/*,.zip" multiple>
+        
+        <div id="loader">⏳ جارٍ فك حقيبة الجواهر...</div>
 
         <div class="playlist" id="playlistArea" style="display:none;">
             <div class="playlist-title">
@@ -88,7 +94,7 @@
     <div class="footer">
         تطوير: <b>مجدي للبرمجيات</b> © 2026 <br>
         <a href="https://www.facebook.com/share/1FuFVriwWP/" target="_blank" class="dev-link">🔗 تواصل عبر فيسبوك</a> <br>
-        <span style="color:#81c784">🌿 صدقة جارية - تشغيل تلقائي متواصل 🌿</span>
+        <span style="color:#81c784">🌿 صدقة جارية - فك ضغط تلقائي وتشغيل متواصل 🌿</span>
     </div>
 
     <script>
@@ -100,38 +106,57 @@
         const playlistArea = document.getElementById('playlistArea');
         const nowPlaying = document.getElementById('nowPlaying');
         const trackCountLabel = document.getElementById('trackCount');
+        const loader = document.getElementById('loader');
 
         let myLibrary = [];
         let currentIndex = 0;
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'block';
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') installBtn.style.display = 'none';
-                deferredPrompt = null;
-            }
-        });
-
-        audioFile.addEventListener('change', function(e) {
+        // معالجة الملفات المرفوعة (سواء صوتية أو ZIP)
+        audioFile.addEventListener('change', async function(e) {
             const files = Array.from(e.target.files);
-            files.forEach(file => {
-                // منع التكرار: التأكد من أن الملف غير موجود مسبقاً في المكتبة
-                const isDuplicate = myLibrary.some(item => item.name === file.name);
-                if (!isDuplicate) {
-                    const fileURL = URL.createObjectURL(file);
-                    myLibrary.push({ name: file.name, url: fileURL });
+            loader.style.display = 'block';
+
+            for (const file of files) {
+                if (file.name.endsWith('.zip')) {
+                    await handleZipFile(file);
+                } else {
+                    addFileToLibrary(file.name, URL.createObjectURL(file));
                 }
-            });
-            renderLibrary();
-            if(myLibrary.length > 0 && player.paused && !player.src) {
-                playTrack(0);
             }
+
+            loader.style.display = 'none';
+            renderLibrary();
+            if(myLibrary.length > 0 && player.paused && !player.src) playTrack(0);
         });
+
+        // وظيفة فك الضغط العبقرية
+        async function handleZipFile(file) {
+            const jszip = new JSZip();
+            try {
+                const zipContent = await jszip.loadAsync(file);
+                const promises = [];
+
+                zipContent.forEach((relativePath, zipEntry) => {
+                    // التأكد من أن الملف داخله هو ملف صوتي وليس مجلد أو ملف نظام
+                    if (!zipEntry.dir && (zipEntry.name.endsWith('.mp3') || zipEntry.name.endsWith('.wav'))) {
+                        const promise = zipEntry.async("blob").then(blob => {
+                            addFileToLibrary(zipEntry.name, URL.createObjectURL(blob));
+                        });
+                        promises.push(promise);
+                    }
+                });
+                await Promise.all(promises);
+            } catch (err) {
+                alert("حدث خطأ في فك الحقيبة، تأكد من سلامة الملف.");
+            }
+        }
+
+        function addFileToLibrary(name, url) {
+            const isDuplicate = myLibrary.some(item => item.name === name);
+            if (!isDuplicate) {
+                myLibrary.push({ name: name, url: url });
+            }
+        }
 
         function renderLibrary() {
             if(myLibrary.length > 0) {
@@ -142,35 +167,42 @@
             myLibrary.forEach((track, index) => {
                 const item = document.createElement('div');
                 item.className = `track-item ${index === currentIndex ? 'active' : ''}`;
-                item.innerHTML = `<span>💎 ${track.name}</span>`;
+                item.innerHTML = `<span>💎 ${track.name.replace('.mp3', '')}</span>`;
                 item.onclick = () => playTrack(index);
                 trackList.appendChild(item);
             });
         }
 
         function playTrack(index) {
-            if (index >= myLibrary.length) index = 0; // العودة للبداية إذا انتهت القائمة
+            if (index >= myLibrary.length) index = 0;
             if (index < 0) index = myLibrary.length - 1;
 
             currentIndex = index;
             player.src = myLibrary[currentIndex].url;
-            nowPlaying.textContent = "🔊 جارٍ تشغيل: " + myLibrary[currentIndex].name;
-            
-            renderLibrary(); // لتحديث شكل "النشط" في القائمة
+            nowPlaying.textContent = "🔊 جارٍ تشغيل: " + myLibrary[currentIndex].name.replace('.mp3', '');
+            renderLibrary();
             player.play();
         }
 
-        // سحر الأفعى: التشغيل التلقائي للملف التالي
-        player.addEventListener('ended', () => {
-            playTrack(currentIndex + 1);
+        player.addEventListener('ended', () => playTrack(currentIndex + 1));
+
+        // كود التثبيت PWA
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'block';
+        });
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') installBtn.style.display = 'none';
+                deferredPrompt = null;
+            }
         });
 
-        // كود Service Worker للتحديث V8
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                    const cacheName = 'v8-pro';
-                    self.addEventListener('install', e => e.waitUntil(caches.open(cacheName).then(c => c.addAll(['./', 'index.html', 'manifest.json', 'assets/quran.png']))));
+                    self.addEventListener('install', e => e.waitUntil(caches.open('v9-gold').then(c => c.addAll(['./', 'index.html', 'manifest.json', 'assets/quran.png']))));
                     self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
                 `], {type: 'text/javascript'})));
             });
