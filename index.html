@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ربيع القلوب 2026</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d4af37">
+
+    <style>
+        body {
+            background-color: #0d1117;
+            background-image: url("https://www.transparenttextures.com/patterns/islamic-art.png");
+            color: #ffffff; font-family: 'Amiri', serif; margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+        }
+        .main-card {
+            background: rgba(255, 255, 255, 0.05); border-radius: 20px;
+            padding: 25px; width: 100%; max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            border: 1px solid rgba(212, 175, 55, 0.3); text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .quran-img { width: 110px; margin-bottom: 10px; filter: drop-shadow(0 0 10px #d4af37); }
+        h1 { color: #d4af37; font-size: 26px; margin: 10px 0; text-shadow: 2px 2px 4px #000; }
+
+        .file-section {
+            margin: 25px 0; padding: 20px; border: 2px dashed rgba(212, 175, 55, 0.5);
+            border-radius: 15px; background: rgba(212, 175, 55, 0.03);
+        }
+        input[type="file"] { display: none; }
+        .upload-btn {
+            background: linear-gradient(145deg, #d4af37, #aa8a2e);
+            color: #000; padding: 12px 25px; border-radius: 50px;
+            cursor: pointer; font-weight: bold; display: inline-block;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: 0.3s;
+        }
+        .upload-btn:active { transform: scale(0.95); }
+
+        audio { width: 100%; margin-top: 20px; filter: sepia(100%) saturate(200%) hue-rotate(10deg); }
+
+        .track-info { color: #f1d592; font-size: 14px; margin-top: 15px; min-height: 20px; }
+        .footer { margin-top: auto; padding: 20px; font-size: 13px; color: #aaa; text-align: center; }
+        .footer a { color: #d4af37; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="main-card">
+        <img src="assets/quran.png" class="quran-img" alt="Logo">
+        <h1>🌙 ربيع القلوب 2026</h1>
+        <p style="color: #888; font-size: 14px;">نسخة الاستماع أوفلاين</p>
+
+        <div class="file-section">
+            <label for="audioFile" class="upload-btn">📂 اختر تلاوة من هاتفك</label>
+            <input type="file" id="audioFile" accept="audio/*">
+            <div id="trackName" class="track-info">جاهز لخدمتك بدون إنترنت</div>
+        </div>
+
+        <audio id="mainPlayer" controls></audio>
+    </div>
+
+    <div class="footer">
+        برمجة م/ <a href="https://www.facebook.com/share/1FuFVriwWP/" target="_blank">مجدي إسماعيل</a> © 2026 <br>
+        <p>صدقة جارية | يعمل بالكامل أوفلاين</p>
+    </div>
+
+    <script>
+        const audioFile = document.getElementById('audioFile');
+        const player = document.getElementById('mainPlayer');
+        const trackName = document.getElementById('trackName');
+
+        audioFile.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                player.src = url;
+                trackName.textContent = "🔊 " + file.name;
+                player.play();
+            }
+        });
+
+        // Service Worker: سر العمل أوفلاين
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swContent = `
+                    const CACHE_NAME = 'rabia-hearts-v2';
+                    const urlsToCache = ['./', './index.html', './manifest.json', './assets/quran.png'];
+                    self.addEventListener('install', event => {
+                        event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
+                    });
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
+                    });
+                `;
+                const blob = new Blob([swContent], {type: 'text/javascript'});
+                const swUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swUrl);
+            });
+        }
+    </script>
+</body>
+</html>
