@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ربيع القلوب 2026 - الإصدار الذهبي V9</title>
+    <title>ربيع القلوب 2026 - الإصدار النهائي V10</title>
     <link rel="manifest" href="manifest.json">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
@@ -33,8 +33,8 @@
             border-radius: 15px; padding: 10px; max-height: 250px; overflow-y: auto;
             border: 1px solid rgba(212, 175, 55, 0.1);
         }
-        .playlist-title { color: #d4af37; font-size: 14px; border-bottom: 1px solid #d4af37; padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; }
-        
+        .playlist-title { color: #d4af37; font-size: 14px; border-bottom: 1px solid #d4af37; padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+
         .track-item { 
             padding: 12px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); 
             cursor: pointer; font-size: 13px; transition: 0.2s;
@@ -52,8 +52,8 @@
             background: #d4af37; color: #000; padding: 12px 25px;
             border-radius: 50px; cursor: pointer; font-weight: bold; display: inline-block;
         }
-        /* مؤشر التحميل */
         #loader { display: none; color: #d4af37; font-size: 12px; margin-top: 10px; }
+        .clear-btn { background: none; border: 1px solid #ff5252; color: #ff5252; font-size: 10px; cursor: pointer; border-radius: 4px; padding: 2px 5px; }
 
         input[type="file"] { display: none; }
         audio { width: 100%; margin-top: 20px; filter: sepia(0.5) hue-rotate(10deg); }
@@ -68,21 +68,21 @@
         <h1>🌙 ربيع القلوب 2026</h1>
         <span class="sub-title">الجواهر الذهبية لتلاوات الشيخ عبد الباسط رحمه الله</span>
 
-        <button id="installBtn">📲 تثبيت التطبيق</button>
+        <button id="installBtn">📲 تثبيت التطبيق (للعمل أوفلاين)</button>
 
         <a href="https://archive.org/compress/audio30__20260210/formats=VBR%20MP3&file=/audio30__20260210.zip" class="download-link">
             📥 تحميل حقيبة التلاوات (ZIP)
         </a>
 
-        <label for="audioFile" class="upload-btn">📂 أضف الحقيبة أو تلاوات</label>
+        <label for="audioFile" class="upload-btn">📂 استيراد التلاوات للمرة الأولى</label>
         <input type="file" id="audioFile" accept="audio/*,.zip" multiple>
         
-        <div id="loader">⏳ جارٍ فك حقيبة الجواهر...</div>
+        <div id="loader">⏳ جارٍ الحفظ الدائم في الهاتف...</div>
 
         <div class="playlist" id="playlistArea" style="display:none;">
             <div class="playlist-title">
-                <span>📜 مكتبة الجواهر:</span>
-                <span id="trackCount" style="font-size: 11px; opacity: 0.7;"></span>
+                <span>📜 مكتبتك المحفوظة:</span>
+                <button class="clear-btn" onclick="clearLibrary()">🗑️ مسح الكل</button>
             </div>
             <div id="trackList"></div>
         </div>
@@ -93,26 +93,51 @@
 
     <div class="footer">
         تطوير: <b>مجدي للبرمجيات</b> © 2026 <br>
-        <a href="https://www.facebook.com/share/1FuFVriwWP/" target="_blank" class="dev-link">🔗 تواصل عبر فيسبوك</a> <br>
-        <span style="color:#81c784">🌿 صدقة جارية - فك ضغط تلقائي وتشغيل متواصل 🌿</span>
+        <a href="https://www.facebook.com/share/1FuFVriwWP/" target="_blank" class="dev-link">🔗 فيسبوك المطور</a> <br>
+        <span style="color:#81c784">🌿 صدقة جارية - مكتبة دائمة أوفلاين 🌿</span>
     </div>
 
     <script>
-        let deferredPrompt;
-        const installBtn = document.getElementById('installBtn');
-        const audioFile = document.getElementById('audioFile');
+        const dbName = "RabiaDB";
+        const storeName = "Library";
+        let db;
+        let myLibrary = [];
+        let currentIndex = 0;
+
         const player = document.getElementById('mainPlayer');
         const trackList = document.getElementById('trackList');
         const playlistArea = document.getElementById('playlistArea');
         const nowPlaying = document.getElementById('nowPlaying');
-        const trackCountLabel = document.getElementById('trackCount');
         const loader = document.getElementById('loader');
 
-        let myLibrary = [];
-        let currentIndex = 0;
+        // 1. تهيئة قاعدة البيانات عند فتح التطبيق
+        const request = indexedDB.open(dbName, 1);
+        request.onupgradeneeded = e => e.target.result.createObjectStore(storeName, { keyPath: "name" });
+        request.onsuccess = e => {
+            db = e.target.result;
+            loadFromDB(); // استعادة المكتبة فوراً
+        };
 
-        // معالجة الملفات المرفوعة (سواء صوتية أو ZIP)
-        audioFile.addEventListener('change', async function(e) {
+        // 2. تحميل المكتبة من الهاتف
+        async function loadFromDB() {
+            const tx = db.transaction(storeName, "readonly");
+            const store = tx.objectStore(storeName);
+            const allTracks = await new Promise(res => {
+                const req = store.getAll();
+                req.onsuccess = () => res(req.result);
+            });
+
+            if (allTracks.length > 0) {
+                myLibrary = allTracks.map(t => ({
+                    name: t.name,
+                    url: URL.createObjectURL(t.blob)
+                }));
+                renderLibrary();
+            }
+        }
+
+        // 3. إضافة الملفات وحفظها "للأبد"
+        document.getElementById('audioFile').addEventListener('change', async function(e) {
             const files = Array.from(e.target.files);
             loader.style.display = 'block';
 
@@ -120,54 +145,39 @@
                 if (file.name.endsWith('.zip')) {
                     await handleZipFile(file);
                 } else {
-                    addFileToLibrary(file.name, URL.createObjectURL(file));
+                    await saveToDB(file.name, file);
                 }
             }
 
             loader.style.display = 'none';
-            renderLibrary();
-            if(myLibrary.length > 0 && player.paused && !player.src) playTrack(0);
+            loadFromDB(); // تحديث الواجهة
         });
 
-        // وظيفة فك الضغط العبقرية
         async function handleZipFile(file) {
             const jszip = new JSZip();
-            try {
-                const zipContent = await jszip.loadAsync(file);
-                const promises = [];
-
-                zipContent.forEach((relativePath, zipEntry) => {
-                    // التأكد من أن الملف داخله هو ملف صوتي وليس مجلد أو ملف نظام
-                    if (!zipEntry.dir && (zipEntry.name.endsWith('.mp3') || zipEntry.name.endsWith('.wav'))) {
-                        const promise = zipEntry.async("blob").then(blob => {
-                            addFileToLibrary(zipEntry.name, URL.createObjectURL(blob));
-                        });
-                        promises.push(promise);
-                    }
-                });
-                await Promise.all(promises);
-            } catch (err) {
-                alert("حدث خطأ في فك الحقيبة، تأكد من سلامة الملف.");
+            const zipContent = await jszip.loadAsync(file);
+            for (let filename in zipContent.files) {
+                const entry = zipContent.files[filename];
+                if (!entry.dir && (filename.endsWith('.mp3') || filename.endsWith('.wav'))) {
+                    const blob = await entry.async("blob");
+                    await saveToDB(filename, blob);
+                }
             }
         }
 
-        function addFileToLibrary(name, url) {
-            const isDuplicate = myLibrary.some(item => item.name === name);
-            if (!isDuplicate) {
-                myLibrary.push({ name: name, url: url });
-            }
+        async function saveToDB(name, blob) {
+            const tx = db.transaction(storeName, "readwrite");
+            tx.objectStore(storeName).put({ name, blob });
+            return new Promise(res => tx.oncomplete = res);
         }
 
         function renderLibrary() {
-            if(myLibrary.length > 0) {
-                playlistArea.style.display = 'block';
-                trackCountLabel.textContent = `${myLibrary.length} تلاوة`;
-            }
+            playlistArea.style.display = 'block';
             trackList.innerHTML = '';
             myLibrary.forEach((track, index) => {
                 const item = document.createElement('div');
                 item.className = `track-item ${index === currentIndex ? 'active' : ''}`;
-                item.innerHTML = `<span>💎 ${track.name.replace('.mp3', '')}</span>`;
+                item.innerHTML = `<span>💎 ${track.name.split('/').pop().replace('.mp3', '')}</span>`;
                 item.onclick = () => playTrack(index);
                 trackList.appendChild(item);
             });
@@ -175,26 +185,31 @@
 
         function playTrack(index) {
             if (index >= myLibrary.length) index = 0;
-            if (index < 0) index = myLibrary.length - 1;
-
             currentIndex = index;
             player.src = myLibrary[currentIndex].url;
-            nowPlaying.textContent = "🔊 جارٍ تشغيل: " + myLibrary[currentIndex].name.replace('.mp3', '');
+            nowPlaying.textContent = "🔊 جارٍ تشغيل: " + myLibrary[currentIndex].name.split('/').pop().replace('.mp3', '');
             renderLibrary();
             player.play();
         }
 
         player.addEventListener('ended', () => playTrack(currentIndex + 1));
 
+        function clearLibrary() {
+            if(confirm("هل تريد مسح جميع التلاوات المحفوظة؟")) {
+                const tx = db.transaction(storeName, "readwrite");
+                tx.objectStore(storeName).clear();
+                tx.oncomplete = () => location.reload();
+            }
+        }
+
         // كود التثبيت PWA
+        let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'block';
+            e.preventDefault(); deferredPrompt = e; document.getElementById('installBtn').style.display = 'block';
         });
-        installBtn.addEventListener('click', async () => {
+        document.getElementById('installBtn').addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') installBtn.style.display = 'none';
                 deferredPrompt = null;
             }
         });
@@ -202,7 +217,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                    self.addEventListener('install', e => e.waitUntil(caches.open('v9-gold').then(c => c.addAll(['./', 'index.html', 'manifest.json', 'assets/quran.png']))));
+                    self.addEventListener('install', e => e.waitUntil(caches.open('v10-final').then(c => c.addAll(['./', 'index.html', 'manifest.json', 'assets/quran.png']))));
                     self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
                 `], {type: 'text/javascript'})));
             });
