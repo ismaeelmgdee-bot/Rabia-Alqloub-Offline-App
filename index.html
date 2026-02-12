@@ -11,14 +11,14 @@
     <meta property="og:url" content="https://ismaeelmgdee-bot.github.io/Rabia-Alqloub-Offline-App/">
     <meta property="og:title" content="🌙 ربيع القلوب 2026 - تلاوات الشيخ عبد الباسط">
     <meta property="og:description" content="الحقيبة الذهبية لتلاوات الشيخ عبد الباسط. يعمل بالكامل بدون إنترنت وبميزة فك الضغط التلقائي.">
-    <meta property="og:image" content="https://ismaeelmgdee-bot.github.io/Rabia-Alqloub-Offline-App/assets/quran.png">
+    <meta property="og:image" content="https://ismaeelmgdee-bot.github.io/Rabia-Alqloub-Offline-App/assets/quran-v1.png">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="🌙 ربيع القلوب 2026">
     <meta name="twitter:description" content="استمتع بتلاوات نادرة للشيخ عبد الباسط عبد الصمد أوفلاين.">
-    <meta name="twitter:image" content="https://ismaeelmgdee-bot.github.io/Rabia-Alqloub-Offline-App/assets/quran.png">
+    <meta name="twitter:image" content="https://ismaeelmgdee-bot.github.io/Rabia-Alqloub-Offline-App/assets/quran-v1.png">
 
-    <link rel="icon" type="image/png" href="assets/quran.png">
+    <link rel="icon" type="image/png" href="assets/quran-v1.png">
     <title>ربيع القلوب 2026 | تلاوات الشيخ عبد الباسط بدون إنترنت</title>
 
     <link rel="manifest" href="manifest.json">
@@ -81,7 +81,7 @@
 <body>
 
     <div class="main-card">
-        <img src="assets/quran.png" style="width: 80px; filter: drop-shadow(0 0 10px #d4af37);">
+        <img src="assets/quran-v1.png" style="width: 80px; filter: drop-shadow(0 0 10px #d4af37);">
         <h1>🌙 ربيع القلوب 2026</h1>
         <span class="sub-title">الجواهر الذهبية لتلاوات الشيخ عبد الباسط رحمه الله</span>
 
@@ -127,15 +127,15 @@
         const nowPlaying = document.getElementById('nowPlaying');
         const loader = document.getElementById('loader');
 
-        // 1. تهيئة قاعدة البيانات عند فتح التطبيق
+        // 1. تهيئة قاعدة البيانات
         const request = indexedDB.open(dbName, 1);
         request.onupgradeneeded = e => e.target.result.createObjectStore(storeName, { keyPath: "name" });
         request.onsuccess = e => {
             db = e.target.result;
-            loadFromDB(); // استعادة المكتبة فوراً
+            loadFromDB();
         };
 
-        // 2. تحميل المكتبة من الهاتف
+        // 2. تحميل المكتبة
         async function loadFromDB() {
             const tx = db.transaction(storeName, "readonly");
             const store = tx.objectStore(storeName);
@@ -153,7 +153,7 @@
             }
         }
 
-        // 3. إضافة الملفات وحفظها "للأبد"
+        // 3. معالجة الملفات
         document.getElementById('audioFile').addEventListener('change', async function(e) {
             const files = Array.from(e.target.files);
             loader.style.display = 'block';
@@ -167,7 +167,7 @@
             }
 
             loader.style.display = 'none';
-            loadFromDB(); // تحديث الواجهة
+            loadFromDB();
         });
 
         async function handleZipFile(file) {
@@ -219,7 +219,7 @@
             }
         }
 
-        // كود التثبيت PWA
+        // PWA Installation
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); deferredPrompt = e; document.getElementById('installBtn').style.display = 'block';
@@ -231,10 +231,11 @@
             }
         });
 
+        // Service Worker مع تحديث اسم الصورة لضمان الأرشفة أوفلاين
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                    self.addEventListener('install', e => e.waitUntil(caches.open('v10-final').then(c => c.addAll(['./', 'index.html', 'manifest.json', 'assets/quran.png']))));
+                    self.addEventListener('install', e => e.waitUntil(caches.open('v10-final').then(c => c.addAll(['./', 'index.html', 'manifest.json', 'assets/quran-v1.png']))));
                     self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
                 `], {type: 'text/javascript'})));
             });
