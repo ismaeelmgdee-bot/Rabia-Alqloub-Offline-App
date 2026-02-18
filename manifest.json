@@ -1,9 +1,10 @@
 {
   "name": "ربيع القلوب 2026 - الجواهر الذهبية",
   "short_name": "ربيع القلوب",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "حقيبة الجواهر الذهبية للشيخ عبد الباسط عبد الصمد - جودة M4A وأداء أوفلاين كامل",
-  "start_url": "index.html",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#050a10",
