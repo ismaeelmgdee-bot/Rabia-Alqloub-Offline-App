@@ -2,21 +2,17 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="تطبيق ربيع القلوب 2026 - الجواهر الذهبية لتلاوات الشيخ عبد الباسط عبد الصمد. نسخة M4A عالية الجودة أوفلاين.">
     <meta name="keywords" content="عبد الباسط عبد الصمد, القرآن الكريم, تلاوات نادرة, ربيع القلوب, تطبيق قرآن أوفلاين, مجدي للبرمجيات, M4A">
     <meta name="author" content="مجدي إسماعيل">
+    <meta name="theme-color" content="#d4af37">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ismaeelmgdee-bot.github.io/Rabia-Alqloub-Offline-App/">
     <meta property="og:title" content="🌙 ربيع القلوب 2026 - الجواهر الذهبية">
     <meta property="og:description" content="الحقيبة الذهبية لتلاوات الشيخ عبد الباسط. يعمل بالكامل بدون إنترنت (نسخة M4A الخفيفة).">
     <meta property="og:image" content="https://ismaeelmgdee-bot.github.io/Rabia-Alqloub-Offline-App/assets/quran-v1.png">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="🌙 ربيع القلوب 2026">
-    <meta name="twitter:description" content="استمتع بالجواهر الذهبية للشيخ عبد الباسط عبد الصمد أوفلاين.">
-    <meta name="twitter:image" content="https://ismaeelmgdee-bot.github.io/Rabia-Alqloub-Offline-App/assets/quran-v1.png">
 
     <link rel="icon" type="image/png" href="assets/quran-v1.png">
     <title>ربيع القلوب 2026 | الجواهر الذهبية M4A</title>
@@ -25,97 +21,164 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
         body {
-            background-color: #050a10;
-            background-image: url("https://www.transparenttextures.com/patterns/islamic-art.png");
-            color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
+            background-color: #080a0f;
+            background-image: radial-gradient(circle at top, #112211 0%, #080a0f 100%);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
+
+        .lantern-emoji {
+            position: fixed;
+            top: -10px;
+            left: 20px;
+            z-index: 9999;
+            font-size: 45px;
+            animation: swing 3.5s infinite ease-in-out alternate;
+            transform-origin: top center;
+            text-shadow: 0 20px 25px rgba(251, 191, 36, 0.6);
+        }
+        @keyframes swing { 0% { transform: rotate(8deg); } 100% { transform: rotate(-8deg); } }
+
         .main-card {
-            background: rgba(13, 17, 23, 0.95); border-radius: 30px;
-            padding: 25px; width: 100%; max-width: 400px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 1px solid rgba(212, 175, 55, 0.3);
-            text-align: center; backdrop-filter: blur(15px);
+            background: rgba(20, 30, 20, 0.6);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+            position: relative;
         }
-        h1 { color: #d4af37; font-size: 28px; margin: 10px 0 5px 0; }
-        .sub-title { color: #f1d592; font-size: 14px; margin-bottom: 20px; display: block; }
+        h1 { color: #d4af37; font-size: 28px; font-weight: 900; margin: 15px 0 5px 0; text-shadow: 0px 0px 15px rgba(212, 175, 55, 0.4); cursor: pointer; user-select: none; }
+        .sub-title { color: #10b981; font-size: 14px; font-weight: bold; margin-bottom: 25px; display: block; }
 
         #installBtn {
-            display: none; background: linear-gradient(145deg, #d4af37, #aa8a2e);
-            color: #000; border: none; padding: 12px; border-radius: 10px;
-            font-weight: bold; cursor: pointer; margin-bottom: 15px; width: 100%;
+            display: none;
+            background: linear-gradient(145deg, #d4af37, #aa8a2e);
+            color: #080a0f; border: none; padding: 14px; border-radius: 12px;
+            font-weight: 900; font-size: 15px; cursor: pointer; margin-bottom: 15px; width: 100%;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
         .playlist {
-            margin-top: 20px; text-align: right; background: rgba(255,255,255,0.05);
-            border-radius: 15px; padding: 10px; max-height: 250px; overflow-y: auto;
-            border: 1px solid rgba(212, 175, 55, 0.1);
+            margin-top: 25px; text-align: right;
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px; padding: 15px;
+            max-height: 280px; overflow-y: auto;
+            border: 1px inset rgba(212, 175, 55, 0.1);
         }
-        .playlist-title { color: #d4af37; font-size: 14px; border-bottom: 1px solid #d4af37; padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .playlist-title { color: #d4af37; font-size: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;}
 
         .track-item {
-            padding: 12px; border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-            cursor: pointer; font-size: 13px; transition: 0.2s;
-            display: flex; align-items: center;
+            padding: 12px 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer; font-size: 13px; transition: 0.3s;
+            display: flex; align-items: center; border-radius: 8px;
+            margin-bottom: 4px;
         }
-        .track-item:hover { background: rgba(212, 175, 55, 0.15); }
-        .track-item.active { background: rgba(212, 175, 55, 0.2); color: #d4af37; border-right: 3px solid #d4af37; }
+        .track-item:hover { background: rgba(212, 175, 55, 0.1); }
+        .track-item.active { background: rgba(212, 175, 55, 0.2); color: #d4af37; font-weight: bold; border-right: 4px solid #d4af37; }
 
-        .download-link {
-            display: block; background: #1b5e20; color: white;
-            padding: 12px; border-radius: 10px; text-decoration: none;
-            font-weight: bold; margin-bottom: 15px; font-size: 14px;
+        .action-btns {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;
         }
+
+        .download-link, .sync-btn {
+            display: block; color: white; padding: 12px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            border: none; cursor: pointer; width: 100%; box-sizing: border-box; text-align: center;
+        }
+        .download-link { background: #1b5e20; }
+        .sync-btn { background: #0f172a; border: 1px solid #3b82f6; color: #3b82f6; }
+        .sync-btn:hover { background: #3b82f6; color: white; }
+
         .upload-btn {
-            background: #d4af37; color: #000; padding: 12px 25px;
-            border-radius: 50px; cursor: pointer; font-weight: bold; display: inline-block;
+            background: rgba(212, 175, 55, 0.1); color: #d4af37; padding: 14px;
+            border-radius: 12px; cursor: pointer; font-weight: bold; display: block;
+            border: 1px dashed #d4af37; width: 100%; box-sizing: border-box; transition: 0.3s;
         }
-        #loader { display: none; color: #d4af37; font-size: 12px; margin-top: 10px; }
-        .clear-btn { background: none; border: 1px solid #ff5252; color: #ff5252; font-size: 10px; cursor: pointer; border-radius: 4px; padding: 2px 5px; }
+        .upload-btn:hover { background: rgba(212, 175, 55, 0.2); }
+
+        #loader { display: none; color: #d4af37; font-size: 13px; font-weight: bold; margin-top: 15px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        .clear-btn { background: rgba(255, 82, 82, 0.1); border: 1px solid #ff5252; color: #ff5252; font-size: 11px; cursor: pointer; border-radius: 6px; padding: 4px 8px; font-weight: bold;}
 
         input[type="file"] { display: none; }
-        audio { width: 100%; margin-top: 20px; filter: sepia(0.5) hue-rotate(10deg); }
-        .footer { margin-top: 30px; font-size: 12px; color: #bbb; text-align: center; line-height: 1.8; }
+        audio { width: 100%; margin-top: 25px; border-radius: 12px; outline: none; }
+
+        .footer { margin-top: auto; padding-top: 30px; font-size: 12px; color: #94a3b8; text-align: center; line-height: 2; }
         .dev-link { color: #d4af37; text-decoration: none; font-weight: bold; }
+
+        /* قبو القائد السري */
+        #secretCommand {
+            display: none; background: rgba(0,0,0,0.8); border: 1px dashed #ef4444; border-radius: 15px;
+            padding: 15px; margin-top: 20px; text-align: center;
+        }
+        .secret-input { width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #333; background: #111; color: #fff; margin-bottom: 10px; direction: ltr;}
+        .secret-btn { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;}
     </style>
 </head>
 <body>
 
+    <div class="lantern-emoji">🏮</div>
+
     <div class="main-card">
-        <img src="assets/quran-v1.png" style="width: 80px; filter: drop-shadow(0 0 10px #d4af37);">
-        <h1>🌙 ربيع القلوب 2026</h1>
-        <span class="sub-title">الجواهر الذهبية (نسخة M4A السيادية)</span>
+        <img src="assets/quran-v1.png" style="width: 90px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5)); border-radius: 50%;">
+        <h1 id="titleClick">ربيع القلوب 📖</h1>
+        <span class="sub-title">الشيخ عبدالباسط عبدالصمد 🕌</span>
 
-        <button id="installBtn">📲 تثبيت التطبيق (للعمل أوفلاين)</button>
+        <button id="installBtn">📲 تثبيت التطبيق على هاتفك</button>
 
-        <a href="https://archive.org/download/rabee-al-quloub-m-4-a/Rabee_AlQuloub_M4A.zip" class="download-link">
-            📥 تحميل حقيبة الجواهر (ZIP)
-        </a>
+        <div class="action-btns">
+            <a href="https://archive.org/download/rabee-al-quloub-m-4-a/Rabee_AlQuloub_M4A.zip" class="download-link">
+                📥 تحميل الحقيبة الكاملة
+            </a>
+            <button class="sync-btn" onclick="syncUpdates()">
+                🔄 مزامنة التحديثات
+            </button>
+        </div>
 
-        <label for="audioFile" class="upload-btn">📂 استيراد الجواهر للمرة الأولى</label>
+        <label for="audioFile" class="upload-btn">📂 استيراد ملفات يدوياً</label>
         <input type="file" id="audioFile" accept=".zip,audio/x-m4a,audio/mp4" multiple>
 
-        <div id="loader">⏳ جارٍ حفظ الجواهر الذهبية...</div>
+        <div id="loader">⏳ جاري الاتصال بالخادم... (يرجى الانتظار)</div>
+
+        <audio id="mainPlayer" controls></audio>
+        <p id="nowPlaying" style="color: #f1d592; font-size: 13px; margin-top: 15px; font-weight: bold;"></p>
 
         <div class="playlist" id="playlistArea" style="display:none;">
             <div class="playlist-title">
-                <span>📜 مكتبة الجواهر:</span>
-                <button class="clear-btn" onclick="clearLibrary()">🗑️ مسح الكل</button>
+                <span>📜 مكتبة التلاوات:</span>
+                <button class="clear-btn" onclick="clearLibrary()">🗑️ مسح الذاكرة</button>
             </div>
             <div id="trackList"></div>
         </div>
 
-        <audio id="mainPlayer" controls></audio>
-        <p id="nowPlaying" style="color: #f1d592; font-size: 12px; margin-top: 15px; font-weight: bold;"></p>
+        <!-- 🕵️‍♂️ قبو القائد السري (صائد الجواهر) -->
+        <div id="secretCommand">
+            <span style="color:#ef4444; font-weight:bold; display:block; margin-bottom:10px;">🛡️ القيادة المركزية للصيد</span>
+            <input type="text" id="targetUrl" class="secret-input" placeholder="ألصق رابط يوتيوب/تيك توك هنا...">
+            <button class="secret-btn" onclick="directHunt()">🎣 صيد الجوهرة المباشر</button>
+        </div>
     </div>
 
     <div class="footer">
         تطوير: <b>مجدي للبرمجيات</b> © 2026 <br>
-        <a href="https://www.facebook.com/share/1FuFVriwWP/" target="_blank" class="dev-link">🔗 فيسبوك المطور</a> <br>
-        <span style="color:#81c784">🌿 صدقة جارية - أداء فائق الخفة M4A 🌿</span>
+        <a href="https://www.facebook.com/share/1FuFVriwWP/" target="_blank" class="dev-link">🔗 تواصل مع المطور</a> <br>
+        <span style="color:#10b981">🌿 صدقة جارية لمن قام بنشره 🌿</span>
     </div>
 
     <script>
-        // ⚡ اسم قاعدة البيانات الجديد لمنع التعارض
+        // 🚀 تم حقن الرابط السيادي بنجاح!
+        const SERVER_URL = "https://majdi-api-server.onrender.com";
+        const API_KEY = "Majdi_Empire_Super_Secret_Key_2026"; // كلمة السر
+
         const dbName = "RabiaDB_M4A_Final";
         const storeName = "Library";
         let db;
@@ -146,7 +209,6 @@
             });
 
             if (allTracks.length > 0) {
-                // ⚡ ترتيب ذكي للأرقام (1، 2، 3...)
                 allTracks.sort((a, b) => {
                     const numA = parseInt(a.name.match(/\d+/)) || 0;
                     const numB = parseInt(b.name.match(/\d+/)) || 0;
@@ -161,10 +223,98 @@
             }
         }
 
-        // 3. معالجة الملفات
+        // =====================================
+        // 📡 الرادار السحابي (مزامنة التحديثات)
+        // =====================================
+        async function syncUpdates() {
+            loader.style.display = 'block';
+            loader.textContent = "📡 جاري فحص الرادار السحابي...";
+            try {
+                const response = await fetch(`${SERVER_URL}/rabia-updates`);
+                const data = await response.json();
+
+                if(data.status === "success" && data.updates.length > 0) {
+                    let newTracksFound = 0;
+                    for (const track of data.updates) {
+                        const trackFileName = track.name + ".m4a";
+                        // تحقق إذا كانت الجوهرة غير موجودة في المكتبة
+                        if (!myLibrary.some(t => t.name === trackFileName)) {
+                            loader.textContent = `⬇️ جاري سحب: ${track.name}`;
+                            const fileRes = await fetch(track.url);
+                            const blob = await fileRes.blob();
+                            await saveToDB(trackFileName, blob);
+                            newTracksFound++;
+                        }
+                    }
+                    if(newTracksFound > 0) {
+                        alert(`تم رصد وضم ${newTracksFound} جوهرة جديدة بنجاح! 💎`);
+                        loadFromDB();
+                    } else {
+                        alert("مكتبتك محدثة بأحدث الجواهر السيادية! 🛡️");
+                    }
+                } else {
+                    alert("لا توجد تحديثات جديدة حالياً.");
+                }
+            } catch (err) {
+                alert("❌ فشل الاتصال بالرادار السحابي. تأكد من الإنترنت.");
+            }
+            loader.style.display = 'none';
+        }
+
+        // =====================================
+        // 🕵️‍♂️ قبو القيادة (الصيد المباشر)
+        // =====================================
+        let clickCount = 0;
+        document.getElementById('titleClick').addEventListener('click', () => {
+            clickCount++;
+            if(clickCount === 3) {
+                document.getElementById('secretCommand').style.display = 'block';
+                clickCount = 0;
+            }
+            setTimeout(() => clickCount = 0, 1500); // تصفير العداد
+        });
+
+        async function directHunt() {
+            const targetUrl = document.getElementById('targetUrl').value;
+            if(!targetUrl) return alert("أدخل رابطاً للهدف!");
+
+            loader.style.display = 'block';
+            loader.textContent = "🎣 جاري اختراق المنصة وسحب الصوت...";
+
+            try {
+                // الاتصال بمسار الدبابة
+                const res = await fetch(`${SERVER_URL}/extract?url=${encodeURIComponent(targetUrl)}&format=audio`, {
+                    headers: { 'x-api-key': API_KEY }
+                });
+                const data = await res.json();
+
+                if(data.status === "success") {
+                    loader.textContent = `⬇️ جاري سحب الجوهرة: ${data.title}`;
+                    // تحميل الرابط الصافي
+                    const audioRes = await fetch(data.video_url);
+                    const blob = await audioRes.blob();
+
+                    const newFileName = `الجوهرة_المصادة_${Date.now()}.${data.ext}`;
+                    await saveToDB(newFileName, blob);
+
+                    alert("✅ تم صيد الجوهرة وضمها للمكتبة بنجاح!");
+                    document.getElementById('targetUrl').value = ""; // تفريغ الخانة
+                    loadFromDB();
+                } else {
+                    alert("❌ فشل الصيد: " + data.error);
+                }
+            } catch (err) {
+                alert("❌ حدث خطأ أثناء محاولة الصيد.");
+                console.error(err);
+            }
+            loader.style.display = 'none';
+        }
+
+        // 3. معالجة الملفات المحلية (تنزيل وفك ضغط)
         document.getElementById('audioFile').addEventListener('change', async function(e) {
             const files = Array.from(e.target.files);
             loader.style.display = 'block';
+            loader.textContent = "⏳ جارٍ الحفظ في خزنة التطبيق...";
 
             for (const file of files) {
                 if (file.name.endsWith('.zip')) {
@@ -173,7 +323,6 @@
                     await saveToDB(file.name, file);
                 }
             }
-
             loader.style.display = 'none';
             loadFromDB();
         });
@@ -183,7 +332,6 @@
             const zipContent = await jszip.loadAsync(file);
             for (let filename in zipContent.files) {
                 const entry = zipContent.files[filename];
-                // ⚡ دعم M4A و AAC
                 if (!entry.dir && (filename.endsWith('.m4a') || filename.endsWith('.aac') || filename.endsWith('.mp4'))) {
                     const blob = await entry.async("blob");
                     await saveToDB(filename, blob);
@@ -203,7 +351,6 @@
             myLibrary.forEach((track, index) => {
                 const item = document.createElement('div');
                 item.className = `track-item ${index === currentIndex ? 'active' : ''}`;
-                // ⚡ تنسيق الاسم: حذف .m4a وكلمة audio
                 const cleanName = track.name.split('/').pop().replace('.m4a', '').replace('.mp4', '').replace('audio', 'الجوهرة ');
                 item.innerHTML = `<span>💎 ${cleanName}</span>`;
                 item.onclick = () => playTrack(index);
@@ -213,28 +360,43 @@
 
         function playTrack(index) {
             if (index >= myLibrary.length) index = 0;
+            if (index < 0) index = myLibrary.length - 1;
+
             currentIndex = index;
             player.src = myLibrary[currentIndex].url;
             const cleanName = myLibrary[currentIndex].name.split('/').pop().replace('.m4a', '').replace('.mp4', '').replace('audio', 'الجوهرة ');
-            nowPlaying.textContent = "🔊 استماع: " + cleanName;
+            nowPlaying.textContent = "📻 يصدح الآن: " + cleanName;
+
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: cleanName,
+                    artist: 'الشيخ عبدالباسط عبدالصمد',
+                    album: 'ربيع القلوب 2026',
+                    artwork: [{ src: 'assets/quran-v1.png', sizes: '512x512', type: 'image/png' }]
+                });
+                navigator.mediaSession.setActionHandler('nexttrack', () => playTrack(currentIndex + 1));
+                navigator.mediaSession.setActionHandler('previoustrack', () => playTrack(currentIndex - 1));
+            }
+
             renderLibrary();
-            player.play();
+            player.play().catch(e => console.log("تحتاج لتفاعل المستخدم أولاً"));
         }
 
         player.addEventListener('ended', () => playTrack(currentIndex + 1));
 
         function clearLibrary() {
-            if(confirm("هل تريد مسح جميع الجواهر من الذاكرة؟")) {
+            if(confirm("هل أنت متأكد من مسح جميع الجواهر من ذاكرة الهاتف؟")) {
                 const tx = db.transaction(storeName, "readwrite");
                 tx.objectStore(storeName).clear();
                 tx.oncomplete = () => location.reload();
             }
         }
 
-        // PWA Installation
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); deferredPrompt = e; document.getElementById('installBtn').style.display = 'block';
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBtn').style.display = 'block';
         });
         document.getElementById('installBtn').addEventListener('click', async () => {
             if (deferredPrompt) {
@@ -243,26 +405,10 @@
             }
         });
 
-        // 🛡️ تفعيل الحارس السيادي + نظام التحديث التلقائي
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js').then(reg => {
-                    console.log('✅ حارس ربيع القلوب مفعل');
-
-                    // اكتشاف التحديثات الجديدة
-                    reg.onupdatefound = () => {
-                        const installingWorker = reg.installing;
-                        installingWorker.onstatechange = () => {
-                            if (installingWorker.state === 'installed') {
-                                if (navigator.serviceWorker.controller) {
-                                    // هنا تظهر البشرى للمستخدم
-                                    alert("✨ تحديث سيادي جديد جاهز! سيتم تفعيل وضع الأوفلاين المطور الآن.");
-                                    location.reload(); // إعادة تحميل لتفعيل النسخة الجديدة فوراً
-                                }
-                            }
-                        };
-                    };
-                }).catch(err => console.log('❌ فشل التسجيل:', err));
+                navigator.serviceWorker.register('service-worker.js')
+                .catch(err => console.error('❌ فشل نشر الحارس!', err));
             });
         }
     </script>
